@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="alert alert-info" role="alert">
+    <b>CRM系统</b>
+    <small class="pull-right">
+        <button class="btn btn-primary">任务</button>
+        <button class="btn btn-primary">通知</button>
+        <button class="btn btn-primary">消息</button>
+    </small>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">123</div>
+        <div class="col-lg-8">
+            <div style="background-color: #2b669a;margin-bottom: 30px;width: 100%;height: 30px;line-height: 30px;">shouye,shuju</div>
+            <div class="data_show">
+            {% block content %}
+
+                <button class="btn btn-success"><a href="/add/">添加</a></button>
+
+                <table class="table table-bordered" style="margin-top: 10px ">
+                    <thead>
+                    <tr class="active">
+                        <td>🌚🌚🌚</td>
+                        <td>调查问卷名称</td>
+                        <td>班级</td>
+                        <td>人数</td>
+                        <td>问卷选项</td>
+                        <td>调查地址</td>
+                        <td>查看评分</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for qn_obj in qn %}
+                        <tr>
+                            <td>{{ qn_obj.id }}</td>
+                            <td>{{ qn_obj.title }}</td>
+                            <td>{{ qn_obj.classlist.title }}</td>
+                            <td>renshu</td>
+                            <td><a href="">编辑问卷</a></td>
+                            <td><a href="/student/evaluate/{{ qn_obj.classlist.id }}/{{ qn_obj.id }}/">/student/evaluate/{{ qn_obj.classlist.id }}/{{ qn_obj.id }}/</a>
+                            </td>
+                            <td><a href="">查看评分</a></td>
+                            <td><a href="">删除</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                            {% endblock %}
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/static/jquery-3.2.1.js"></script>
+{% block script %}
+
+{% endblock %}
+</body>
+</html>

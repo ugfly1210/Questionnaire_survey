@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+
+
+    <div class="row">
+        <div style="margin-bottom: 30px;" class="pull-right" ><button class="btn">添加</button></div>
+    </div>
+    <div class="table" style="top: 60px ;">{{ form.title }}{{ form.title.error_messages }}</div>
+
+
+    <div style="">{{form.question_type }}{{ form.question_type.error_messages }}</div>
+{% endblock %}
