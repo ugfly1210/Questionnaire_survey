@@ -1,0 +1,156 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+
+    <style>
+        .hide {
+            display: none;
+        }
+
+        ol {
+            padding: 0;
+            list-style: none;
+            counter-reset: sectioncounter
+        }
+
+        ol > li:before {
+            content: '问题' counter(sectioncounter) ':';
+            counter-increment: sectioncounter;
+            font-size: 18px;
+            color: #d4d4d4;
+        {#padding-top: 10px;#}
+        }
+
+        ol > li:nth-of-type(odd) {
+            background-color: #f9f9f9;
+            padding-top: 10px;
+        }
+    </style>
+    {% csrf_token %}
+    <ol class="ol_content">
+        {% for item  in form_list %}
+            <li style="margin-top: 15px">
+                <button class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>
+                <div class="question_div" qid="{{ item.obj.id }}" style="margin-top: 5px;">{# 当前问题的ID,没有的话,就是新增. 有id的话,就是更新 #}
+                    <p>问题名称&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;{{ item.form.caption }}</p>{# form组件里面的字段 #}
+                    <p>问题类型&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;{{ item.form.tp }}&nbsp;&nbsp;&nbsp;
+                        {# 这里选项,如果是单选的时候才让他显示. #}
+                        <button class="btn btn-danger {{ item.option_class }} add_tp">添加选项</button>
+                    </p>
+                    <ul class="ul_option">
+                        {% for option in item.options %}
+                            {#                            这里加ID是因为,选项id,如果有id的话,说明是修改,如果没有id 就是新增了,如果是新增,就没有ID属性#}
+                            <li class="li_class" style="margin-top: 5px" id="{{ option.obj.id }}">{{ option.form }}
+                                <button style="margin-left: 20px"
+                                        class="glyphicon glyphicon-remove-sign btn btn-danger"></button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {#                新数据没有,数据库里有 就是删除.反之添加#}
+                </div>
+            </li>
+        {% endfor %}
+
+    </ol>
+    <button class="btn-lg btn-danger glyphicon glyphicon-plus-sign add_question"></button>
+    <kbd><span style="text-align:center;width:80%;display: inline-block">Fuck U</span></kbd>
+    <button class="btn-lg glyphicon glyphicon-off pull-right save_btn"></button>
+
+{#    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>#}
+{#    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>#}
+{#    <script src="/static/jquery.cookie.js"></script>#}
+    <script src="/static/jquery-3.2.1.js"></script>
+
+    <script>
+        var ss = '<li class="li_class" style="margin-top: 5px" id=""><label for="id_option_name">选项名称:</label><input type="text"  name="option_name" value="" maxlength="32" required="" id="id_option_name">\n' +
+            '<label for="id_score">选项对应的分值:</label><input type="number" name="score" value="" required="" id=""><button style="margin-left: 20px" class="glyphicon glyphicon-remove-sign btn btn-danger"></button> </li>'
+
+
+        var sss = '<li style="margin-top: 15px"><button class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>\n' +
+            '                <div qid="" style="margin-top: 5px;">\n' +
+            '                    <p>问题名称&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;<input type="text" name="caption" value="" maxlength="64" required="" id="id_caption"></p>\n' +
+            '                    <p>问题类型&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;<select name="tp" required="" id="id_tp">\n' +
+            '  <option value="">---------</option>\n' +
+            '\n' +
+            '  <option value="1">打分</option>\n' +
+            '\n' +
+            '  <option value="2">单选</option>\n' +
+            '\n' +
+            '  <option value="3">评价</option>\n' +
+            '\n' +
+            '</select>&nbsp;&nbsp;&nbsp;\n' +
+            '                        <button class="btn btn-danger hide add_tp ">添加选项</button></p>\n' +
+            '<ul class="ul_option"></ul>' +
+            '</div></li>';
+        {#点击添加问题按钮,就出现新的问题框#}
+        $('.add_question').click(function () {
+            $('.ol_content').append(sss)
+        });
+
+        {#    事件委派先,然后判断如果问类型是的id是2,就显示添加选项按钮,否则就你懂的#}
+        $('body').on('change', 'select', function () {
+            if ($(this).val() == 2) {
+                $(this).next().removeClass('hide')
+            } else {
+                $(this).next().addClass('hide');
+                $(this).parent().children('.li_class').remove();
+            }
+        });
+        {#点击添加选项按钮,就添加一个新的选项框#}
+        $('body').on('click', '.add_tp', function () {
+            $(this).parent().next().append(ss);
+        });
+
+
+        //拿值
+        function getData() {
+            qlist = [];
+        $('ol>li').each(function () {
+            q_dict={'qid':null,'question_title':null,'question_tp':null,'option_list':null};
+            var qid=$(this).find('.question_div').attr('qid');
+            var question_title = $(this).find('textarea').val();    //当前问题的名称
+            var question_tp = $(this).find('select').val();
+            q_dict['qid'] = qid;
+            q_dict['question_title'] = question_title;
+            {#console.log('--question_title',question_title)#}
+            q_dict['question_tp'] = question_tp;
+            //如果tp为2,说明是单选,要把它的值拿出来存起来
+            {#console.log('66666666')#}
+            {#console.log('question_tp-',question_tp)#}
+            if (question_tp == 2) {
+                option_list = [];
+                $('ul>li').each(function () {
+                    options = {};
+                    options['option_name'] = $(this).find('[name="option_name"]').val();
+                    options['score'] = $(this).find('[name="score"]').val();
+                    options['id'] = $(this).attr('id');
+                    option_list.push(options)
+                });
+             qlist.push(option_list)
+            }
+            qlist.push(q_dict)
+        });
+        return qlist;
+        }
+
+
+
+        $('.save_btn').click(function () {
+            {#console.log(qlist);#}
+console.log(getData());
+             $.ajax({
+               url:"/question/{{ qid }}/",
+               type:"POST",
+               data:{data:JSON.stringify(getData()),
+               {#data:{data:JSON.stringify(getData()),#}
+                "csrfmiddlewaretoken": $("[name='csrfmiddlewaretoken']").val()
+               },
+               success:function(data){
+                   alert(data)
+               }
+        }
+        )});
+    </script>
+
+{% endblock %}

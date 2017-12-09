@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-
+    <style>
+        *{
+            font-family: "Monaco";
+        }
+    </style>
 </head>
 <body>
 
@@ -46,7 +50,7 @@
                             <td>{{ qn_obj.title }}</td>
                             <td>{{ qn_obj.classlist.title }}</td>
                             <td>renshu</td>
-                            <td><a href="">编辑问卷</a></td>
+                            <td><a href="/question/{{ qn_obj.id }}/">编辑问卷</a></td>
                             <td><a href="/student/evaluate/{{ qn_obj.classlist.id }}/{{ qn_obj.id }}/">/student/evaluate/{{ qn_obj.classlist.id }}/{{ qn_obj.id }}/</a>
                             </td>
                             <td><a href="">查看评分</a></td>
@@ -62,10 +66,10 @@
         </div>
     </div>
 </div>
-
+{#<script src="https://cdn.bootcss.com/jquery/3.2.1/core.js"></script>#}
 <script src="/static/jquery-3.2.1.js"></script>
-{% block script %}
-
-{% endblock %}
 </body>
 </html>
+
+
+

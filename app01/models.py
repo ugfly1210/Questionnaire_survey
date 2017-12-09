@@ -46,7 +46,7 @@ class Question(models.Model):
 		(3,'评价'),
 	)
     tp = models.IntegerField(choices=question_type)
-    questionnaire = models.ForeignKey(to=QuestionNaire,verbose_name='该问卷下的问题')
+    questionnaire = models.ForeignKey(to=QuestionNaire,verbose_name='该问卷下的问题',default=1)
     def __str__(self):
        return self.caption
 

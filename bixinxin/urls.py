@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^login/', views.login),
     url(r'^index/', views.index),
     url(r'^add/', views.add),
-    url(r'^student/evaluate/<?P(class_id)\d+>/<?P(qn_id)\d+>/', views.qn),
+    url(r'^question/(\d+)/$', views.question),
+    # url(r'^save_question/$', views.save_question),
+    # url(r'^student/evaluate/<?P(class_id)\d+>/<?P(qn_id)\d+>/', views.qn),
 ]
