@@ -19,9 +19,11 @@ from app01 import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', views.login),
+    url(r'^stu_login/', views.student_login),
     url(r'^index/', views.index),
     url(r'^add/', views.add),
     url(r'^question/(\d+)/$', views.question),
+    # url(r'^meeting/$', views.meeting),
     # url(r'^save_question/$', views.save_question),
-    # url(r'^student/evaluate/<?P(class_id)\d+>/<?P(qn_id)\d+>/', views.qn),
+    url(r'^student/evaluate/(?P<class_id>\d+)/(?P<qn_id>\d+)/', views.eva_stu),
 ]

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db" uuid="4bb8dadf-99cc-4645-a441-aab742def70e">
+    <data-source source="LOCAL" name="Django default" uuid="e0d07b52-0604-4650-b883-977d6d088895">
+      <driver-ref>64acb0af-b3da-43c8-a873-bdd2ecc3710f</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/bixinxin/settings.py</remarks>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="db" uuid="e0d3212b-da2e-4d3f-8de1-bb97cd6dca77">
       <driver-ref>64acb0af-b3da-43c8-a873-bdd2ecc3710f</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
@@ -19,17 +30,6 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.16.1/xerial-sqlite-license.txt</url>
         </library>
       </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="Django default" uuid="e0d07b52-0604-4650-b883-977d6d088895">
-      <driver-ref>64acb0af-b3da-43c8-a873-bdd2ecc3710f</driver-ref>
-      <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/bixinxin/settings.py</remarks>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
     </data-source>
   </component>
 </project>

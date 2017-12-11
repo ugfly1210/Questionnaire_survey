@@ -22,6 +22,7 @@ class Student(models.Model):
 	学生表
 	'''
     name = models.CharField(max_length=12,verbose_name='学生姓名')
+    password = models.CharField(max_length=24,verbose_name='学生密码')
     classlist = models.ForeignKey(to=ClassList,verbose_name='学生所在班级')
     def __str__(self):
         return self.name
@@ -69,5 +70,6 @@ class Answer(models.Model):
     content = models.CharField(max_length=255,null=True,blank=True,verbose_name='评价')
     student = models.ForeignKey(to=Student,verbose_name='哪位同学答的题')
     question = models.ForeignKey(to=Question,verbose_name='答的是哪道题')
+    option = models.ForeignKey(to=Option,verbose_name='单选选项',null=True)
     def __str__(self):
         return self.val

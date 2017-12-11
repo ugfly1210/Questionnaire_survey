@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            list-style-type: none;
+        }
+        ul li{
+            display: inline-block;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+<h3>{{ request.session.stu_info.stu_user }}</h3>
+
+    <form method="post" novalidate>
+    {% csrf_token %}
+    {% for foo in form %}
+        <p>{{ foo.label }}{{ foo.errors.0 }}</p>
+            {{ foo }}
+    {% endfor %}
+        <div><input type="submit" value="点击"></div>
+
+    </form>
+</body>
+</html>

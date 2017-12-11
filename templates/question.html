@@ -57,10 +57,10 @@
     <kbd><span style="text-align:center;width:80%;display: inline-block">Fuck U</span></kbd>
     <button class="btn-lg glyphicon glyphicon-off pull-right save_btn"></button>
 
-{#    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>#}
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 {#    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>#}
 {#    <script src="/static/jquery.cookie.js"></script>#}
-    <script src="/static/jquery-3.2.1.js"></script>
+{#    <script src="/static/jquery-3.2.1.js"></script>#}
 
     <script>
         var ss = '<li class="li_class" style="margin-top: 5px" id=""><label for="id_option_name">选项名称:</label><input type="text"  name="option_name" value="" maxlength="32" required="" id="id_option_name">\n' +
@@ -88,7 +88,7 @@
             $('.ol_content').append(sss)
         });
 
-        {#    事件委派先,然后判断如果问类型是的id是2,就显示添加选项按钮,否则就你懂的#}
+        {#事件委派先,然后判断如果问类型是的id是2,就显示添加选项按钮,否则就你懂的#}
         $('body').on('change', 'select', function () {
             if ($(this).val() == 2) {
                 $(this).next().removeClass('hide')
@@ -118,33 +118,38 @@
             //如果tp为2,说明是单选,要把它的值拿出来存起来
             {#console.log('66666666')#}
             {#console.log('question_tp-',question_tp)#}
+            option_list = [];
+
             if (question_tp == 2) {
-                option_list = [];
-                $('ul>li').each(function () {
+                {#console.log(question_tp);#}
+                {#console.log(question_title)#}
+                $(this).find('.ul_option>li').each(function () {
                     options = {};
                     options['option_name'] = $(this).find('[name="option_name"]').val();
+                    console.log(options['option_name'])
                     options['score'] = $(this).find('[name="score"]').val();
                     options['id'] = $(this).attr('id');
                     option_list.push(options)
                 });
-             qlist.push(option_list)
+             q_dict['option_list'] = option_list
             }
             qlist.push(q_dict)
         });
+        {#console.log(qlist)#}
         return qlist;
         }
 
 
 
         $('.save_btn').click(function () {
-            {#console.log(qlist);#}
-console.log(getData());
              $.ajax({
-               url:"/question/{{ qid }}/",
+               url:"/question/{{ qnid }}/",
                type:"POST",
-               data:{data:JSON.stringify(getData()),
-               {#data:{data:JSON.stringify(getData()),#}
-                "csrfmiddlewaretoken": $("[name='csrfmiddlewaretoken']").val()
+               {#contentType: 'Application/json',#}
+               data:{
+                   data:JSON.stringify(getData()),
+               {#data:{data:getData(),#}
+                   csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
                },
                success:function(data){
                    alert(data)
@@ -154,3 +159,78 @@ console.log(getData());
     </script>
 
 {% endblock %}
+
+
+
+{#<script>#}
+{##}
+{#       function getData() {#}
+{#            plist = [];#}
+{#        $('ol>li').each(function(i,j){#}
+{#            if (i ==0){#}
+{#                return true;#}
+{#            }#}
+{#            obj = {};#}
+{##}
+{#            qid=$(this).find($("div[pk]")).attr("pk");#}
+{#            obj["id"] = qid;#}
+{#            if (qid == null){#}
+{#                obj["id"] = qid;#}
+{#            }#}
+{##}
+{#            title = $(this).find("[name='title']").val();#}
+{#            obj["title"] = title;#}
+{#            qtype = $(this).find("[name = 'qtype']").val();#}
+{#            obj["qtype"] = qtype;#}
+{#            if (qtype == 2){#}
+{#                options = [];#}
+{#                $(this)#}
+{#                console.log($(this).find("[name='options']"));#}
+{#                $(this).find("[name = 'options']>li").each(function () {#}
+{#                    option ={};#}
+{#                    name = $(this).find("[name = 'name']").val();#}
+{#                    score = $(this).find("[name = 'score']").val();#}
+{#                    option["name"] = name;#}
+{#                    option["score"] = score;#}
+{#                    option["id"] = $(this).attr("id");#}
+{#                    options.push(option);#}
+{#                });#}
+{#                obj["options"] = options;#}
+{#            }#}
+{#            plist.push(obj)#}
+{##}
+{#        });#}
+{#        return JSON.stringify(plist);#}
+{#        return plist#}
+{#       }#}
+{##}
+{##}
+{##}
+{#        /*添加按钮*/#}
+{#        $("#addbut").on("click",function () {#}
+{#            li = $('li:first').clone();#}
+{#            li.removeAttr("class");#}
+{#            $("ol").append(li);#}
+{##}
+{#        });#}
+{#        /*保存按钮*/#}
+{#        $("#savebut").on("click",function () {#}
+{#            console.log(JSON.stringify(getData()));#}
+{#            $.ajax({#}
+{##}
+{#					url:'/editQuestionnaire/',#}
+{#					type:'post',#}
+{#					data: {"data":JSON.stringify(getData()),#}
+{#                            "qnareid":{{ qid }},#}
+{#                        "csrfmiddlewaretoken":$("[name='csrfmiddlewaretoken']").val()#}
+{#                    } , // k1="[....]"&age=18#}
+{#					success:function(arg){#}
+{#					    console.log(arg);#}
+{#					    if(arg=="ok"){#}
+{#					        location.href = "/index/"#}
+{#                        }#}
+{#					}#}
+{##}
+{#				})#}
+{#        })#}
+{#    </script>  #}
